@@ -110,5 +110,5 @@ if (($DESKTOP==1))
 then gpasswd --add $USER gdm
 elif (($DESKTOP==2))
 then gpasswd --add $USER sddm
-else gpasswd --add lightdm
+else gpasswd --add $USER lightdm
 fi
