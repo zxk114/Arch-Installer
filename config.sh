@@ -76,7 +76,7 @@ done
 echo -e "\033[31m Which desktop you want to install \033[0m"
 DESKTOP=9
 while (($DESKTOP!=1&&$DESKTOP!=2&&$DESKTOP!=3&&$DESKTOP!=4&&$DESKTOP!=5&&$DESKTOP!=6&&$DESKTOP!=7&&$DESKTOP!=8));do
-read -p "     gnome-1 kde-2 lxde-3 lxqt-4 mate-5 xfce-6 deepin-7 budgie-8   " DESKTOP
+read -p "  gnome-1 kde-2 lxde-3 lxqt-4 mate-5 xfce-6 deepin-7 budgie-8   " DESKTOP
 case $DESKTOP in
     1) pacman -S gnome --force&&systemctl enable gdm
     ;;
