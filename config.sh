@@ -1,4 +1,5 @@
 #!/bin/bash
+read -p "ENTER to continue "
 ##必要设置
 ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime -f
 hwclock --systohc --utc
