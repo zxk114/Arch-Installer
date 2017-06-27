@@ -87,9 +87,9 @@ fi
 read -p "Successfully installed ? (n or Enter  " TMP
 done
 ##安装桌面环境
-echo -e "\033[31m Which desktop you want to install :  \033[0m"
 TMP=n
-while [ "$TMP" == n ]
+while [ "$TMP" == n ];do
+echo -e "\033[31m Which desktop you want to install :  \033[0m"
 DESKTOP=0
 while (($DESKTOP!=1&&$DESKTOP!=2&&$DESKTOP!=3&&$DESKTOP!=4&&$DESKTOP!=5&&$DESKTOP!=6&&$DESKTOP!=7&&$DESKTOP!=8&&$DESKTOP!=9));do
 echo "[1]  Gnome
