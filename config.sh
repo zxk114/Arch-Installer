@@ -1,5 +1,6 @@
 #!/bin/bash
 read -p "ENTER to continue "
+
 ##必要设置
 ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime -f
 hwclock --systohc --utc
@@ -27,6 +28,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 read -p "Successfully installed ? (n or Enter  " TMP
 done
 fi
+
 ##安装显卡驱动
 TMP=n
 while [ "$TMP" == n ];do
@@ -84,6 +86,7 @@ fi
 done
 read -p "Successfully installed ? (n or Enter  " TMP
 done
+
 ##安装必要软件/简单配置
 echo "[archlinuxcn]
 Server = https://mirrors.ustc.edu.cn/archlinuxcn/\$arch" >> /etc/pacman.conf
@@ -98,12 +101,13 @@ then pacman -S bluez blueman&&systemctl enable bluetooth
 fi
 read -p "Successfully installed ? (n or Enter  " TMP
 done
+
 ##安装桌面环境
 TMP=n
 while [ "$TMP" == n ];do
 echo -e "\033[31m Which desktop you want to install :  \033[0m"
 DESKTOP=0
-while (($DESKTOP!=1&&$DESKTOP!=2&&$DESKTOP!=3&&$DESKTOP!=4&&$DESKTOP!=5&&$DESKTOP!=6&&$DESKTOP!=7&&$DESKTOP!=8&&$DESKTOP!=9));do
+while (($DESKTOP!=1&&$DESKTOP!=2&&$DESKTOP!=3&&$DESKTOP!=4&&$DESKTOP!=5&&$DESKTOP!=6&&$DESKTOP!=7&&$DESKTOP!=8&&$DESKTOP!=9&&$DESKTOP!=10));do
 echo "[1]  Gnome
 [2]  Kde
 [3]  Lxde
@@ -111,8 +115,9 @@ echo "[1]  Gnome
 [5]  Mate
 [6]  Xfce
 [7]  Deepin
-[8]  Budgie 
-[9]  Cinnamon"
+[8]  Budgie
+[9]  Cinnamon
+[10]  i3wm"
 read DESKTOP
 case $DESKTOP in
     1) pacman -S gnome
@@ -133,12 +138,15 @@ case $DESKTOP in
     ;;
     9) pacman -S cinnamon lightdm lightdm-gtk-greeter
     ;;
+    10) pacman -S i3 rofi rxvt-unicode lightdm lightdm-gtk-greeter
+    ;;
     *) echo Error ! Input the number again
     ;;
 esac
 done
 read -p "Successfully installed ? (n or Enter  " TMP
 done
+
 ##建立用户
 read -p "Input the user name you want to use :  " USER
 useradd -m -g wheel $USER
@@ -156,3 +164,12 @@ systemctl enable sddm
 else gpasswd -a $USER lightdm
 systemctl enable lightdm
 fi
+
+##自定义
+TMP=n
+while (($TMP == n))
+do
+read -p	"Input you own command:  " TMP
+$TMP
+read -p "Exit ? (n or enter " TMP 
+done
