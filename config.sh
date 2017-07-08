@@ -132,7 +132,7 @@ case $DESKTOP in
     ;;
     6) pacman -S --noconfirm xfce4 xfce4-goodies lightdm lightdm-gtk-greeter
     ;;
-    7) pacman -S --noconfirm deepin deepin-extra lightdm lightdm-gtk-greeter
+    7) pacman -S --noconfirm deepin deepin-extra lightdm lightdm-gtk-greeter&&sed -i '108s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-deepin-greeter/' /etc/lightdm/lightdm.conf
     ;;
     8) pacman -S--noconfirm  budgie-desktop lightdm lightdm-gtk-greeter
     ;;
