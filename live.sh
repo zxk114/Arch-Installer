@@ -15,8 +15,8 @@ if [ "$TMP" == y ]
 then mkfs.ext4 $ROOT
 else mkfs.btrfs $ROOT -f
 fi
-mount $ROOT /mnt
 fi
+mount $ROOT /mnt
 read -p "Do you have the /boot mount point? (y or Enter  " BOOT
 if [ "$BOOT" == y ]
 then fdisk -l
