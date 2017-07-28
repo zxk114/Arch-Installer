@@ -38,7 +38,7 @@ while [ "$TMP" == n ];do
 [1]  intel
 [2]  nvidia
 [3]  intel/nvidia
-        [4]  ATI/AMD"
+[4]  ATI/AMD"
         read VIDEO
         if (($VIDEO==1))
         then pacman -S --noconfirm xf86-video-intel -y
@@ -67,7 +67,7 @@ while [ "$TMP" == n ];do
                 echo "Version of nvidia-driver to install:
 [1]  GeForce-8 and newer
 [2]  GeForce-6/7
-                [3]  Older   "
+[3]  Older   "
                 read TMP
                 if (($TMP==1))
                 then pacman -S --noconfirm nvidia -y
@@ -117,7 +117,7 @@ while [ "$TMP" == n ];do
 [7]  Deepin
 [8]  Budgie
 [9]  Cinnamon
-        [10]  i3wm"
+[10]  i3wm"
         read DESKTOP
         case $DESKTOP in
             1) pacman -S --noconfirm gnome
