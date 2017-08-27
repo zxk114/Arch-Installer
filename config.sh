@@ -48,7 +48,7 @@ while [ "$TMP" == n ];do
                 echo "Version of nvidia-driver to install:
 [1]  GeForce-8 and newer
 [2]  GeForce-6/7
-                [3]  Older  "
+[3]  Older  "
                 read TMP
                 if (($TMP==1))
                 then pacman -S --noconfirm nvidia -y
