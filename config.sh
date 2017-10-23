@@ -151,7 +151,7 @@ done
 read -p "Input the user name you want to use :  " USER
 useradd -m -g wheel $USER
 passwd $USER
-usermod -aG root,bin,daemon,tty,disk,games,network,video,audio $USER
+usermod -aG root,bin,daemon,tty,disk,network,video,audio $USER
 if (($VIDEO==4))
 then  gpasswd -a $USER bumblebee
 fi
