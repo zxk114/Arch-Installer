@@ -30,8 +30,9 @@ partition(){
     read OTHER
     color green "Format it ? y)yes ENTER)no"
     read tmp
-    
+
     if [ "$tmp" == y ];then
+        umount $OTHER > /dev/null 2>&1
         color green "Input the filesystem's num to format it"
         select type in 'ext2' "ext3" "ext4" "btrfs" "xfs" "jfs" "fat" "swap";do
             case $type in
@@ -62,8 +63,9 @@ partition(){
                 "fat")
                     mkfs.fat -F32 $OTHER
                     break
+                ;;
                 "swap")
-                    swapoff $OTHER > /dev/null
+                    swapoff $OTHER > /dev/null 2>&1
                     mkswap $OTHER -f
                     break
                 ;;
@@ -77,7 +79,7 @@ partition(){
     if [ "$1" == "/swap" ];then
         swapon $OTHER
     else
-        umount $OTHER > /dev/null
+        umount $OTHER > /dev/null 2>&1
         mkdir /mnt$other
         mount $OTHER /mnt$other
     fi
@@ -97,9 +99,10 @@ prepare(){
     color green "Format it ? y)yes ENTER)no"
     read tmp
     if [ "$tmp" == y ];then
+        umount $ROOT > /dev/null 2>&1
         color green "Input the filesystem's num to format it"
         select type in "ext4" "btrfs" "xfs" "jfs";do
-            umount $ROOT > /dev/null
+            umount $ROOT > /dev/null 2>&1
             mkfs.$type $ROOT
             break
         done
@@ -147,17 +150,19 @@ config(){
 
 if [ "$1" != '' ];then
     case $1 in
-        "prepare")
+        "--prepare")
             prepare
         ;;
-        "install")
+        "--install")
             install
         ;;
-        "chroot")
+        "--chroot")
             config
         ;;
+        "--help")
+            color red "--prepare :  prepare disk and partition\n--install :  install the base system\n--chroot :  chroot into the system to install other software"
         *)
-            color red "Please change to prepare(for disk and partition) , install(install the base system) or chroot(chroot into the system to install other software)"
+            color red "--prepare :  prepare disk and partition\n--install :  install the base system\n--chroot :  chroot into the system to install other software"
         ;;
     esac
 else
