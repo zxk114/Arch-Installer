@@ -165,6 +165,7 @@ if [ "$1" != '' ];then
         ;;
         "--help")
             color red "--prepare :  prepare disk and partition\n--install :  install the base system\n--chroot :  chroot into the system to install other software"
+        ;;
         *)
             color red "--prepare :  prepare disk and partition\n--install :  install the base system\n--chroot :  chroot into the system to install other software"
         ;;
