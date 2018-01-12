@@ -151,6 +151,7 @@ install_graphic(){
                 color red "Error ! Please input the correct num"
             ;;
         esac
+    done
 }
 
 install_bluetooth(){
