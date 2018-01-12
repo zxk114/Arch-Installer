@@ -69,7 +69,7 @@ install_bootctl(){
     else
         color yellow "Looks like your PC doesn't suppot UEFI or not in UEFI mode ENTER to use grub. Input q to quit"
         read TMP
-        if [ "$TMP" == "" ]
+        if [ "$TMP" == "" ];then
             install_grub
         else
             exit
