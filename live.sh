@@ -12,14 +12,11 @@ color(){
         yellow)
             echo -e "\033[33m$2\033[0m"
         ;;
-        blue)
-            echo -e "\033[34m$2\033[0m"
-        ;;
     esac
 }
 
 partition(){
-    if (echo $1 | grep '/' > /dev/null);then
+    if (echo $1 | grep '/' > /dev/null 2>&1);then
         :
     else
         other=/$1
