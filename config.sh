@@ -90,6 +90,7 @@ add_user(){
     passwd $USER
     pacman -S --noconfirm sudo
     sed -i 's/\# \%wheel ALL=(ALL) ALL/\%wheel ALL=(ALL) ALL/g' /etc/sudoers
+    sed -i 's/\# \%wheel ALL=(ALL) NOPASSWD: ALL/\%wheel ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
 }
 
 install_graphic(){
@@ -170,23 +171,41 @@ install_bluetooth(){
 }
 
 install_app(){
-    color blue "Install yaourt from archlinuxcn ? y)YES ENTER)NO"
+    color blue "Install yaourt from archlinuxcn ? (just for China users) y)YES ENTER)NO"
     read TMP
     if [ "$TMP" == "y" ];then
-        echo -e "[archlinuxcn]\nServer = http://mirrors.163.com/archlinux-cn/\$arch" >> /etc/pacman.conf
+        sed -i '/archlinuxcn/d' /etc/pacman.conf
+        select MIRROR in "USTC" "TUNA" "163";do
+            case $MIRROR in
+                "USTC")
+                    echo -e "[archlinuxcn]\nServer = https://mirrors.ustc.edu.cn/archlinuxcn/\$arch" >> /etc/pacman.conf
+                    break
+                ;;
+                "TUNA")
+                    echo -e "[archlinuxcn]\nServer = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/\$arch" >> /etc/pacman.conf
+                    break
+                ;;
+                "163")
+                    echo -e "[archlinuxcn]\nServer = http://mirrors.163.com/archlinux-cn/\$arch" >> /etc/pacman.conf
+                    break
+                ;;
+                *)
+                    color red "Error ! Please input the correct num"
+                ;;
+            esac
+        done
         pacman -S --noconfirm archlinuxcn-keyring
         pacman -S --noconfirm yaourt
     else
         pacman -S --noconfirm git
         su - $USER -c "cd ~
             git clone https://aur.archlinux.org/package-query.git
-            cd package-query
-            makepkg -si
+            cd package-query&&makepkg -si
             cd ..
             git clone https://aur.archlinux.org/yaourt.git
-            cd yaourt
-            makepkg -si
-            cd .."
+            cd yaourt&&makepkg -si
+            cd ..
+            rm -rf package-query yaourt"
         fi
     pacman -S --noconfirm networkmanager xorg-server firefox wqy-zenhei
     systemctl enable NetworkManager
