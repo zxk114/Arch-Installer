@@ -14,7 +14,7 @@ color(){
 
 partition(){
     if (echo $1 | grep '/' > /dev/null 2>&1);then
-        :
+        other=$1
     else
         other=/$1
     fi
