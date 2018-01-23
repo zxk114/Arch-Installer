@@ -118,36 +118,25 @@ prepare(){
 }
 
 install(){
-    color green 'Choose the mirror you want to use (input the num'
-    select mirror in "USTC" "TUNA" "163" "LeaseWeb";do
-        case $mirror in
-            "USTC")
-                echo "Server = http://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-                break
-            ;;
-            "TUNA")
-                echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-                break
-            ;;
-            "163")
-                echo "Server = http://mirrors.163.com/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-                break
-            ;;
-            "LeaseWeb")
-                echo "Server = http://mirror.wdc1.us.leaseweb.net/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-                break
-            ;;
-            *)
-                color red "Please input the correct num"
-            ;;
-        esac
-    done
+    echo "setopt no_nomatch" >> ~/.zshrc
+    source ~/.zshrc
+    mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+    wget -O /etc/pacman.d/mirrorlist.bak https://www.archlinux.org/mirrorlist/?country=CN
+    sed -i 's/#Server/Server/g' /etc/pacman.d/mirrorlist.bak
+    rankmirrors -n 6 /etc/pacman.d/mirrorlist.bak > /etc/pacman.d/mirrorlist
+    cat <<- EOF >> /etc/pacman.conf
+    [archlinuxcn]
+    Server = https://mirrors.ustc.edu.cn/archlinuxcn/AAA
+    EOF
+    sed -i 's/AAA/$arch/g' /etc/pacman.conf
+    sed -i 's/^SigLevel.*$/SigLevel = Never/g' /etc/pacman.conf
+    pacman -Syy
     pacstrap /mnt base base-devel --force
     genfstab -U -p /mnt > /mnt/etc/fstab
 }
 
 config(){
-    wget https://raw.githubusercontent.com/YangMame/Arch-Installer/master/config.sh -O /mnt/root/config.sh
+    wget https://raw.githubusercontent.com/zxk114/Arch-Installer/master/config.sh -O /mnt/root/config.sh
     chmod +x /mnt/root/config.sh
     arch-chroot /mnt /root/config.sh
 }
