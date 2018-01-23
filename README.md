@@ -12,7 +12,7 @@
 #### 使用方法：
 进入live系统连接网络后执行：
 ```
-wget git.io/vb9IK -O live.sh
+wget git.io/vNwJD -O live.sh
 chmod +x live.sh
 ./live.sh
 ```
