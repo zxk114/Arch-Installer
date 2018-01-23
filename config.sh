@@ -295,3 +295,5 @@ main(){
 }
 
 main
+umount /mnt
+reboot
