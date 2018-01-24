@@ -118,30 +118,15 @@ prepare(){
 }
 
 install(){
-    color green 'Choose the mirror you want to use (input the num'
-    select mirror in "USTC" "TUNA" "163" "LeaseWeb";do
-        case $mirror in
-            "USTC")
-                echo "Server = http://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-                break
-            ;;
-            "TUNA")
-                echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-                break
-            ;;
-            "163")
-                echo "Server = http://mirrors.163.com/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-                break
-            ;;
-            "LeaseWeb")
-                echo "Server = http://mirror.wdc1.us.leaseweb.net/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-                break
-            ;;
-            *)
-                color red "Please input the correct num"
-            ;;
-        esac
-    done
+
+    color green “Generating mirror list , Please wait a minute”
+    
+    mv /etc/pacman.d/mirrorlist /etc/mirrorlist.bak
+    wget https://www.archlinux.org/mirrorlist/all/https/ -O /etc/pacman.d/mirrorlist.new
+    sed -i 's/#Server/Server/g' /etc/pacman.d/mirrorlist.new
+    rankmirrors -n 3 /etc/pacman.d/mirrorlist.new > /etc/pacman.d/mirrorlist
+    chmod +r /etc/pacman.d/mirrorlist
+    
     pacstrap /mnt base base-devel --force
     genfstab -U -p /mnt > /mnt/etc/fstab
 }
